@@ -1,0 +1,29 @@
+UglySTM32 is an environment for development STM32 F4 series microcontroller. Without HAL & LL. Only CMSIS & Makefile! A fork from https://github.com/STM32-base 
+Just to make it simple, clean, & ugly :)
+
+The structure :
+
+UglySTM32
+	|
+	|base---|linker-----------|STM32F4xx -->STM32F4*.ld
+	|	|make ------------|STM32F4xx -->common.mk			
+	|	|startup ---------|STM32F4xx -->STM32F4*.s
+	|
+	|cmsis--|ARM-------|inc
+	| 	|STM32F4xx-|inc--->STM32F4*.h
+	|		   |src--->system_*.c 	
+	|libraries
+	|
+	|projects|yourproject--|bin
+	|		       |obj	
+	|		       |src-->Makefile & main.c 	
+	|			   
+	|tools--|arm-none-eabi 
+		|bin
+		|lib
+		|share
+
+Download gcc-arm-none-eabi & extract at tools folder.
+https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
+
+Just CD to your src project and type "make" to compile the source code & "make flash" to flashing stm32 chip.
