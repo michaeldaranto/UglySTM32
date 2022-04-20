@@ -72,14 +72,13 @@ CPPFLAGS += -g
 # Flags - Optimization Options
 CPPFLAGS += -ffunction-sections
 CPPFLAGS += -fdata-sections
+CPPFLAGS += -Os
 
 # Flags - Preprocessor options
 CPPFLAGS += -D $(MAPPED_DEVICE)
 
 ## Flags - Assembler Options
-#ifneq (,$(or USE_ST_CMSIS, USE_ST_HAL))
-#    CPPFLAGS += -Wa,--defsym,CALL_ARM_SYSTEM_INIT=1
-#endif
+CPPFLAGS += -Wa,--defsym,CALL_ARM_SYSTEM_INIT=1
 
 # Flags - Linker Options
 # CPPFLAGS += -nostdlib
@@ -92,6 +91,7 @@ CPPFLAGS += -I$(BASE_STARTUP)
 # Flags - Machine-dependant options
 CPPFLAGS += -mcpu=$(SERIES_CPU)
 CPPFLAGS += -march=$(SERIES_ARCH)
+CPPFLAGS += -mtune=$(SERIES_CPU)
 CPPFLAGS += -mlittle-endian
 CPPFLAGS += -mthumb
 CPPFLAGS += -masm-syntax-unified
@@ -112,23 +112,12 @@ SRC += $(SRC_FOLDER)/*.c
 # Startup file
 DEVICE_STARTUP = $(BASE_STARTUP)/$(SERIES_FOLDER)/$(MAPPED_DEVICE).s
 
-# Include the CMSIS files, using the HAL implies using the CMSIS
-#ifneq (,$(or USE_ST_CMSIS, USE_ST_HAL))
+# Include the CMSIS files
+
     CPPFLAGS += -I$(STM32_CMSIS_PATH)/ARM/inc
     CPPFLAGS += -I$(STM32_CMSIS_PATH)/$(SERIES_FOLDER)/inc
 
     SRC += $(STM32_CMSIS_PATH)/$(SERIES_FOLDER)/src/*.c
-#endif
-
-## Include the HAL files
-#ifdef USE_ST_HAL
-#    CPPFLAGS += -D USE_HAL_DRIVER
-#    CPPFLAGS += -I$(STM32_CUBE_PATH)/HAL/$(SERIES_FOLDER)/inc
-#
-#    # A simply expanded variable is used here to perform the find command only once.
-#    HAL_SRC := $(shell find $(STM32_CUBE_PATH)/HAL/$(SERIES_FOLDER)/src/*.c ! -name '*_template.c')
-#    SRC += $(HAL_SRC)
-#endif
 
 # Make all
 all:$(BIN_FILE_PATH)
@@ -137,11 +126,11 @@ $(BIN_FILE_PATH): $(ELF_FILE_PATH)
 	$(OBJCOPY) -O binary $^ $@
 
 $(ELF_FILE_PATH): $(SRC) $(OBJ_FILE_PATH) | $(BIN_FOLDER)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
-
+#	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@ 
 $(OBJ_FILE_PATH): $(DEVICE_STARTUP) | $(OBJ_FOLDER)
-	$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
-
+#	$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $^ -o $@
 $(BIN_FOLDER):
 	mkdir $(BIN_FOLDER)
 
