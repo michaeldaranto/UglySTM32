@@ -1,31 +1,41 @@
+/*********************************************************
+WeAct BlackPill STM32F411CEU6
+GPIOA Pin0  --> Switch/Button
+GPIOC Pin13 --> LED
+Press the Button to slowdown (Blink LED) 
+Michael Daranto - YD3BRB
+**********************************************************/
+
 #include "stm32f4xx.h"
 
-// Quick and dirty delay
-static void delay (unsigned int time) {
-    for (unsigned int i = 0; i < time; i++)
-        for (volatile unsigned int j = 0; j < 2000; j++);
+// Simple delay
+void delay (void){
+	for (uint32_t i=0; i < 500000; i++)
+		__asm("nop");
 }
-
 int main (void) {
     // Turn on the GPIOC & GPIOA peripheral
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
     
-    GPIOA->MODER&=~GPIO_MODER_MODE0; 	//GPIOA Pin 0 input
+    // GPIOA Pin0 input
+    GPIOA->MODER&=~GPIO_MODER_MODE0; 	
     
-    GPIOC->MODER|= GPIO_MODER_MODE13_0; //GPIOC Pin 13 output
+    // GPIOA Pin13 output
+    GPIOC->MODER|= GPIO_MODER_MODE13_0; 
     GPIOC->MODER&=~GPIO_MODER_MODE13_1;
     
 
     while (1) {
-    
+    	// Check if someone press the button 
 	if (GPIOA->IDR&GPIO_IDR_ID0) {
-	GPIOC->ODR ^=(1<<13);
-	delay(20);
+	GPIOC->ODR ^=GPIO_ODR_OD13;
+	delay();
 	}
 	else {
-	GPIOC->ODR ^=(1<<13);
-        delay(100);
+	GPIOC->ODR ^=GPIO_ODR_OD13;
+        delay();
+	delay();
         }
     }
 
