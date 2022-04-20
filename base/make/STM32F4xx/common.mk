@@ -1,7 +1,7 @@
 export
 
-SERIES_CPU  = cortex-m4
-SERIES_ARCH = armv7e-m+fp
+SERIES_CPU  = cortex-m4 
+SERIES_ARCH = armv7e-m+fp -mfloat-abi=hard
 
 ifeq (STM32F401xB, $(DEVICE))
     MAPPED_DEVICE = STM32F401xC
