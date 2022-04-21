@@ -1,4 +1,4 @@
-UglySTM32 is an environment for development STM32 F4 series microcontroller. Without HAL & LL. Only CMSIS & Makefile! A fork from https://github.com/STM32-base 
+UglySTM32 is an environment for development STM32 microcontroller with CMSIS only. No HAL & LL.Just CMSIS & Makefile! A fork from https://github.com/STM32-base 
 Just to make it simple, clean, & ugly :)
 
 The structure :
