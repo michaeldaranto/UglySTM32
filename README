@@ -23,8 +23,19 @@ UglySTM32
 		|bin
 		|lib
 		|share
-
+		
+git clone https://github.com/michaeldaranto/UglySTM32.git 
+Change directory name from UglySTM32 to potatoguy if you want it! 
 Download gcc-arm-none-eabi & extract at tools folder.
-https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
-
-CD to your src project and type "make" to compile the source code & "make flash" to flashing stm32 chip.
+	https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
+CD to your src project and type "make" to compile the source code & "make flash" to flashing the stm32 chip. 
+Clean your dirty room with "make clean". This command will trash your *.o, *.bin, and *.elf. 
+Hack common.md file at /base/make to make it more ugly ;)
+If you want more!
+	Go to https://github.com/STMicroelectronics
+	Download CMSIS version of your F1 or F7 chip. Exa https://github.com/STMicroelectronics/cmsis_device_f7
+	Extract and copy to cmsis folder
+	Go to https://github.com/STM32-base/STM32-base
+	Download linker, make, & startup --> STM32F7xx
+	Copy all STM32F7xx directory to UglySTM32 (don't kill UglySTM32 common.md file at /base/make) 
+Now..You are set to go!
