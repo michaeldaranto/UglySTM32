@@ -26,8 +26,10 @@ UglySTM32
 		
 git clone https://github.com/michaeldaranto/UglySTM32.git 
 Change directory name from UglySTM32 to potatoguy if you want it! 
-Download gcc-arm-none-eabi & extract at tools folder.
+Download gcc-arm-none-eabi & extract at tools folder. This link for X86_64 Linux. 
 	https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
+	OR the latest & greatest 
+	https://developer.arm.com/-/media/Files/downloads/gnu/11.2-2022.02/binrel/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi.tar.xz
 CD to your src project and type "make" to compile the source code & "make flash" to flashing the stm32 chip. 
 Clean your dirty room with "make clean". This command will trash your *.o, *.bin, and *.elf. 
 Hack common.mk file at /base/make to make it more ugly ;)
