@@ -1,4 +1,4 @@
-.include "startup_common.s"
+.include "../../../base/startup/startup_common.s"
 
 .word __ccmdata_start
 .word __ccmdata_end
