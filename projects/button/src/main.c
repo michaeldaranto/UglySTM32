@@ -22,7 +22,7 @@ int main (void) {
 	// GPIOA Pin0 input
 	GPIOA->MODER&=~GPIO_MODER_MODE0; 	
     
-	// GPIOA Pin13 output
+	// GPIOC Pin13 output
 	GPIOC->MODER|= GPIO_MODER_MODE13_0; 
 	GPIOC->MODER&=~GPIO_MODER_MODE13_1;
     
