@@ -1,8 +1,8 @@
 /*********************************************************
 WeAct BlackPill STM32F411CEU6
 GPIOC Pin13 --> LED
-    HSE= 25MHz  
-    AHB=100MHZ 
+    HSI RC = 16MHz (Internal clock) 
+    AHB = 100MHZ 
     SysTick CLKSOURCE = AHB/8 =12.5MHz
     SysTick Pool delay to Blink LED 
 Michael Daranto - YD3BRB
@@ -19,32 +19,35 @@ int main (void) {
 	GPIOC->MODER|= GPIO_MODER_MODE13_0;
 	GPIOC->MODER&=~GPIO_MODER_MODE13_1;
 
-	// For 96+Mhz	
+	// For 96+MHz	
 	FLASH->ACR |=FLASH_ACR_LATENCY_2WS;
 	
-	// HSE = 25MHZ Xtal onboard
-	RCC->CR |=RCC_CR_HSEON;
-	while ((RCC->CR & RCC_CR_HSERDY)==0);
+	// HSI RC = 16MHZ Internal clock
+	RCC->CR |=RCC_CR_HSION;
+	while ((RCC->CR & RCC_CR_HSIRDY)==0);
 	
-	// PLL Source HSE = 25MHz 
-	RCC->PLLCFGR |= RCC_PLLCFGR_PLLSRC_HSE;
+	// PLL Source HSI = 16MHz 
+	RCC->PLLCFGR |= RCC_PLLCFGR_PLLSRC_HSI;
 	
 	// Reset PLLM
 	RCC->PLLCFGR &=~RCC_PLLCFGR_PLLM;
 	
-	// /M 12 --> 25MHz/12  --> 2.08333333333 MHz (nice number :)
-	RCC->PLLCFGR |= RCC_PLLCFGR_PLLM_2|RCC_PLLCFGR_PLLM_3;
+	// /M 8 --> 16MHz/8  --> 2MHz 
+	RCC->PLLCFGR |= RCC_PLLCFGR_PLLM_3;
 	
 	// Reset PLLN
 	RCC->PLLCFGR &=~RCC_PLLCFGR_PLLN;
 	
-	// *N 96 --> (25MHz/12)*96 --> 200MHz  PLLN = 1100000
-	RCC->PLLCFGR |= RCC_PLLCFGR_PLLN_5|RCC_PLLCFGR_PLLN_6;
+	// *N 100 --> (16MHz/8)*100 --> 200MHz  PLLN = 001100100
+	RCC->PLLCFGR |= RCC_PLLCFGR_PLLN_2|
+					RCC_PLLCFGR_PLLN_5|
+					RCC_PLLCFGR_PLLN_6;
+					
 	
 	// Reset PLLP
 	RCC->PLLCFGR &=~RCC_PLLCFGR_PLLP;
 	
-	// /P 2  --> ((25MHz/12)*96)/2 --> 100MHz  PLLP= 00
+	// /P 2  --> ((16MHz/8)*100)/2 --> 100MHz  PLLP= 00
 	RCC->PLLCFGR &=~RCC_PLLCFGR_PLLP; //sure! lol
 
 	// PLL is ready to go!
