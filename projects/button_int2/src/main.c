@@ -82,7 +82,6 @@ while (1) {
 	return 0;
 }
 	
-extern "C" { 
 void EXTI0_IRQHandler(void) {
 	
 	//Blink LED 1x			
@@ -113,4 +112,3 @@ void EXTI15_10_IRQHandler(void) {
 	EXTI->PR |= EXTI_PR_PR14;          
 }
 
-}
