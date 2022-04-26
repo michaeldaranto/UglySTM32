@@ -59,7 +59,6 @@ while (1) {
 	return 0;
 }
 	
-extern "C" { 
 void EXTI0_IRQHandler(void) {
 	
 	//Blink LED 2x			
@@ -75,4 +74,4 @@ void EXTI0_IRQHandler(void) {
 	// Clear interrupt pending flag
 	EXTI->PR |= EXTI_PR_PR0;          
 }
-}
+
