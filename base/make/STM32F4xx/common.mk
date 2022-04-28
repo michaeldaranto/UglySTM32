@@ -3,6 +3,9 @@ export
 SERIES_CPU  = cortex-m4 
 SERIES_ARCH = armv7e-m+fp -mfloat-abi=hard
 
+#OpenOCD
+OOCD_TARGET = stm32f4x
+
 ifeq (STM32F401xB, $(DEVICE))
     MAPPED_DEVICE = STM32F401xC
 endif
