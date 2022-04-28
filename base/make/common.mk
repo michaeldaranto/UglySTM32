@@ -1,5 +1,6 @@
 # Check to make sure that the required variables are set
-# Small Modification by YD3BRB 19-04-2022
+# Modification by YD3BRB 28-04-2022
+
 ifndef DEVICE
     $(error Please set the required DEVICE variable in your makefile.)
 endif
@@ -30,13 +31,12 @@ include $(BASE_MAKE)/series-folder-name.mk
 include $(BASE_MAKE)/$(SERIES_FOLDER)/common.mk
 MAPPED_DEVICE ?= $(DEVICE)
 
-
 # The toolchain path, defaults to using the globally installed toolchain
 ifdef TOOLCHAIN_PATH
     TOOLCHAIN_SEPARATOR = /
 endif
 
-TOOLCHAIN_PATH      ?= ../../../tools/bin/
+TOOLCHAIN_PATH	    ?= ../../../tools/bin/
 TOOLCHAIN_SEPARATOR ?=
 TOOLCHAIN_PREFIX    ?= arm-none-eabi-
 
@@ -48,7 +48,6 @@ AS      = $(TOOLCHAIN_PATH)$(TOOLCHAIN_SEPARATOR)$(TOOLCHAIN_PREFIX)gcc
 OBJCOPY = $(TOOLCHAIN_PATH)$(TOOLCHAIN_SEPARATOR)$(TOOLCHAIN_PREFIX)objcopy
 OBJDUMP = $(TOOLCHAIN_PATH)$(TOOLCHAIN_SEPARATOR)$(TOOLCHAIN_PREFIX)objdump
 SIZE    = $(TOOLCHAIN_PATH)$(TOOLCHAIN_SEPARATOR)$(TOOLCHAIN_PREFIX)size
-
 
 # Flags - Overall Options
 CPPFLAGS += -specs=nosys.specs
@@ -99,6 +98,7 @@ CPPFLAGS += -masm-syntax-unified
 # Output files
 ELF_FILE_NAME ?= stm32_executable.elf
 BIN_FILE_NAME ?= stm32_bin_image.bin
+
 OBJ_FILE_NAME ?= startup_$(MAPPED_DEVICE).o
 
 ELF_FILE_PATH = $(BIN_FOLDER)/$(ELF_FILE_NAME)
@@ -110,6 +110,7 @@ SRC ?=
 SRC += $(SRC_FOLDER)/*.c
 
 # Startup file
+
 DEVICE_STARTUP = $(BASE_STARTUP)/$(SERIES_FOLDER)/$(MAPPED_DEVICE).s
 
 # Include the CMSIS files
@@ -137,6 +138,10 @@ $(BIN_FOLDER):
 $(OBJ_FOLDER):
 	mkdir $(OBJ_FOLDER)
 
+# OpenOCD parameters
+OOCD		?= openocd
+OOCD_INTERFACE	?= stlink
+
 # Make clean
 clean:
 	rm -f $(ELF_FILE_PATH)
@@ -145,6 +150,10 @@ clean:
 
 # Make flash
 flash:
-	st-flash write $(BIN_FOLDER)/$(BIN_FILE_NAME) $(FLASH)
+#	st-flash write $(BIN_FOLDER)/$(BIN_FILE_NAME) $(FLASH)
+
+# OpenOCD  
+	$(OOCD) -f interface/$(OOCD_INTERFACE).cfg -f target/$(OOCD_TARGET).cfg \
+	-c "program $(BIN_FOLDER)/$(ELF_FILE_NAME) verify reset exit"
 
 .PHONY: all clean flash
