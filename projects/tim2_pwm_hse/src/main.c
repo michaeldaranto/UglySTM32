@@ -32,7 +32,7 @@ void TIM2_Init (void) {
 	RCC->APB1ENR |=RCC_APB1ENR_TIM2EN|RCC_APB1ENR_PWREN;
 	// Prescaler 100Mhz/1 =100MHz
 	TIM2->PSC= 0;
-	// Auto Reload Register for 1MKHz 
+	// Auto Reload Register for 1MHz 
 	TIM2->ARR= 100-1;
 	// Clear counter
 	TIM2->CNT=0;
