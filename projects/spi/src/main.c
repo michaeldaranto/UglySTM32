@@ -17,10 +17,10 @@ int main (void) {
 		
 	SPI2_Init();
 	while (1) {
-	    SPI2_Tx('A');			//0x41	0b01000001
-	    SPI2_Tx('9');			//0x39	0b00111001 
-		SPI2_Tx(255);			//0xFF	0b11111111	   
-	    SPI2_Tx(0b10101010);	//0xAA	0b10101010
+		SPI2_Tx('A');			//0x41	0b01000001
+	    	SPI2_Tx('9');			//0x39	0b00111001 
+	    	SPI2_Tx(255);			//0xFF	0b11111111	   
+	    	SPI2_Tx(0b10101010);		//0xAA	0b10101010
 	}
 	// Return 0 to satisfy compiler
 	return 0;
@@ -34,8 +34,8 @@ void SPI2_Init(){
 	GPIOB->MODER |=GPIO_MODER_MODE13_1|GPIO_MODER_MODE14_1|GPIO_MODER_MODE15_1;
 	// AF05 - SPI2 see datasheet page 48
 	GPIOB->AFR[1]|= GPIO_AFRH_AFSEL13_0|GPIO_AFRH_AFSEL13_2| // b0101
-					GPIO_AFRH_AFSEL14_0|GPIO_AFRH_AFSEL14_2|
-					GPIO_AFRH_AFSEL15_0|GPIO_AFRH_AFSEL15_2;
+			GPIO_AFRH_AFSEL14_0|GPIO_AFRH_AFSEL14_2|
+			GPIO_AFRH_AFSEL15_0|GPIO_AFRH_AFSEL15_2;
 	// Turn on APB1! SPI2 connect to APB1 - See datasheet page 15. Why ST like SP than SPI?
 	RCC->APB1ENR |= RCC_APB1ENR_SPI2EN ;
 	// Disable NSS, act as Master
@@ -51,4 +51,3 @@ void SPI2_Tx(uint8_t onebyte){
 	// Wait till SPI not busy for next job
 	while(!(SPI2->SR & SPI_SR_BSY)){} 
 }
-
