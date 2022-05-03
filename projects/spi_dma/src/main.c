@@ -43,8 +43,8 @@ void SPI2_Init(void){
 	GPIOB->MODER |=GPIO_MODER_MODE13_1|GPIO_MODER_MODE14_1|GPIO_MODER_MODE15_1;
 	// AF05 - SPI2 see datasheet page 48
 	GPIOB->AFR[1]|= GPIO_AFRH_AFSEL13_0|GPIO_AFRH_AFSEL13_2| // b0101
-					GPIO_AFRH_AFSEL14_0|GPIO_AFRH_AFSEL14_2|
-					GPIO_AFRH_AFSEL15_0|GPIO_AFRH_AFSEL15_2;
+			GPIO_AFRH_AFSEL14_0|GPIO_AFRH_AFSEL14_2|
+			GPIO_AFRH_AFSEL15_0|GPIO_AFRH_AFSEL15_2;
 	
 	// Disable NSS, act as Master
 	SPI2->CR1 |= SPI_CR1_SSM|SPI_CR1_SSI|SPI_CR1_MSTR;
@@ -63,9 +63,9 @@ void DMA1_Stream4_Init(void){
 	while((DMA1_Stream4->CR) & DMA_SxCR_EN){}	
 	// Configuration Register 
 	DMA1_Stream4->CR &=~DMA_SxCR_CHSEL;		// CH 0
-	DMA1_Stream4->CR = 	DMA_SxCR_MINC|		// Memory Increment mode
-						DMA_SxCR_DIR_0|		// Memory to peripheral	
-						DMA_SxCR_TCIE;		// Transfer complete interrupt enable
+	DMA1_Stream4->CR = DMA_SxCR_MINC|		// Memory Increment mode
+				DMA_SxCR_DIR_0|		// Memory to peripheral	
+				DMA_SxCR_TCIE;		// Transfer complete interrupt enable
 						
 	// Direct mode disabled
 	DMA1_Stream4->FCR &=~DMA_SxFCR_DMDIS;
