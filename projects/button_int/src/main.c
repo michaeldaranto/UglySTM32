@@ -22,7 +22,7 @@ int main (void) {
 __disable_irq();
 	// Turn on the GPIOC,GPIOA, & SYSCFG peripheral
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN|RCC_AHB1ENR_GPIOAEN;
-    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+    	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
     
 	// GPIOA Pin0 input with Pullup
 	GPIOA->MODER &=~GPIO_MODER_MODE0;
